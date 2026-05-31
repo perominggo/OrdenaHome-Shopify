@@ -1,0 +1,35 @@
+<div class="cookie-banner" id="CookieBanner">
+  <div class="cookie-content">
+    <p>Usamos cookies para mejorar tu experiencia. <a href="/pages/privacy">Política de privacidad</a></p>
+    <div class="cookie-btns">
+      <button id="AcceptCookies" class="btn-accept">Aceptar</button>
+      <button id="RejectCookies" class="btn-reject">Rechazar</button>
+    </div>
+  </div>
+</div>
+<style>
+  .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); color: white; padding: 1.5rem; z-index: 500; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+  .cookie-content { flex: 1; }
+  .cookie-content p { margin: 0; font-size: 0.95rem; }
+  .cookie-content a { color: var(--color-accent); }
+  .cookie-btns { display: flex; gap: 1rem; flex-shrink: 0; }
+  .btn-accept, .btn-reject { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+  .btn-accept { background: var(--color-accent); color: white; }
+  .btn-reject { background: transparent; color: white; border: 1px solid white; }
+  @media (max-width: 768px) { .cookie-banner { flex-direction: column; align-items: flex-start; } .cookie-btns { width: 100%; } }
+</style>
+<script>
+  if (!localStorage.getItem('cookiesAccepted')) {
+    document.getElementById('CookieBanner').style.display = 'flex';
+  } else {
+    document.getElementById('CookieBanner').style.display = 'none';
+  }
+  document.getElementById('AcceptCookies').addEventListener('click', () => {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('CookieBanner').style.display = 'none';
+  });
+  document.getElementById('RejectCookies').addEventListener('click', () => {
+    localStorage.setItem('cookiesAccepted', 'false');
+    document.getElementById('CookieBanner').style.display = 'none';
+  });
+</script>

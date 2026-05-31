@@ -1,0 +1,60 @@
+<div class="cart-drawer" id="CartDrawer">
+  <div class="cart-overlay" id="CartOverlay"></div>
+  <div class="cart-content">
+    <div class="cart-header">
+      <h2>Carrito</h2>
+      <button id="CartClose">✕</button>
+    </div>
+    {% if cart.item_count > 0 %}
+      <div class="cart-items" id="CartItems">
+        {% for item in cart.items %}
+          <div class="cart-item" data-id="{{ item.id }}">
+            <img src="{{ item | img_url: '80x80' }}" alt="{{ item.title }}">
+            <div class="item-info">
+              <h4>{{ item.title }}</h4>
+              <p>€{{ item.final_price | money_without_currency }}</p>
+            </div>
+            <button class="remove-btn">🗑</button>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="cart-summary">
+        <p>Total: <strong id="CartTotal">€{{ cart.total_price | money_without_currency }}</strong></p>
+      </div>
+      <button id="CheckoutBtn" class="checkout-btn">Ir al Checkout</button>
+    {% else %}
+      <p style="padding: 2rem; text-align: center;">Tu carrito está vacío</p>
+    {% endif %}
+  </div>
+</div>
+<style>
+  .cart-drawer { position: fixed; top: 0; right: -450px; width: 450px; height: 100vh; background: white; z-index: 999; transition: right 0.3s; box-shadow: -2px 0 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+  .cart-drawer.active { right: 0; }
+  .cart-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: -1; }
+  .cart-content { flex: 1; display: flex; flex-direction: column; }
+  .cart-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+  .cart-header h2 { margin: 0; }
+  .cart-header button { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 1rem; }
+  .cart-item { display: flex; gap: 1rem; padding: 1rem; border-bottom: 1px solid #eee; align-items: center; }
+  .cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; }
+  .item-info { flex: 1; }
+  .item-info h4 { margin: 0 0 0.5rem 0; }
+  .item-info p { margin: 0; font-weight: 600; color: var(--color-accent); }
+  .remove-btn { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+  .cart-summary { padding: 1rem; border-top: 2px solid #f0f0f0; }
+  .checkout-btn { padding: 1rem; background: var(--color-primary); color: white; border: none; font-weight: 600; cursor: pointer; margin: 1rem; border-radius: 4px; }
+  .checkout-btn:hover { background: var(--color-accent); }
+  @media (max-width: 768px) { .cart-drawer { width: 100%; right: -100%; } }
+</style>
+<script>
+  document.getElementById('CartToggle').addEventListener('click', () => {
+    document.getElementById('CartDrawer').classList.add('active');
+  });
+  document.getElementById('CartClose').addEventListener('click', () => {
+    document.getElementById('CartDrawer').classList.remove('active');
+  });
+  document.getElementById('CartOverlay').addEventListener('click', () => {
+    document.getElementById('CartDrawer').classList.remove('active');
+  });
+</script>

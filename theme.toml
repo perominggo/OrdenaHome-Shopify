@@ -1,0 +1,10 @@
+name = "OrdenaHome"
+description = "Tema Shopify completo para tienda de almacenamiento y organización"
+since = "2026-01-01"
+
+[theme]
+name = "OrdenaHome"
+
+[development]
+password = ""
+theme_store_id = 0

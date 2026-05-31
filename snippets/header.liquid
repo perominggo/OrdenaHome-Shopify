@@ -1,0 +1,22 @@
+<header class="header">
+  <div class="header-container">
+    <a href="/" class="logo">{{ shop.name }}</a>
+    <nav class="nav-menu">
+      {% for link in linklists.main-menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    <div class="header-actions">
+      <button id="CartToggle" class="cart-btn">🛒 <span id="CartCount">0</span></button>
+    </div>
+  </div>
+</header>
+<style>
+  .header { background: white; border-bottom: 1px solid #eee; padding: 1rem 2rem; }
+  .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-weight: 700; font-size: 1.5rem; text-decoration: none; color: var(--color-primary); }
+  .nav-menu { display: flex; gap: 2rem; }
+  .nav-menu a { text-decoration: none; color: var(--color-primary); transition: color 0.3s; }
+  .nav-menu a:hover { color: var(--color-accent); }
+  .cart-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+</style>
