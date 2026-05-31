@@ -1,0 +1,132 @@
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "Cantidad de productos",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "presets": [{
+    "name": "Featured Products"
+  }]
+}
+{% endschema %}
+
+<section class="featured-products">
+  <div class="container">
+    <h2>{{ section.settings.title }}</h2>
+    
+    <div class="product-grid">
+      {% if section.settings.collection %}
+        {% assign collection = collections[section.settings.collection] %}
+        {% for product in collection.products limit: section.settings.products_count %}
+          <div class="product-card">
+            <div class="product-image">
+              <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">{{ product.title }}</h3>
+              <p class="product-price">€{{ product.price | money_without_currency }}</p>
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                <button type="submit" class="add-to-cart">Añadir al carrito</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-products {
+    padding: 4rem 2rem;
+  }
+  
+  .featured-products h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .product-card {
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .product-info {
+    padding: 1.5rem;
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-price {
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .add-to-cart {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .add-to-cart:hover {
+    background: var(--color-accent);
+  }
+</style>

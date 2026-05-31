@@ -1,0 +1,136 @@
+{% schema %}
+{
+  "name": "Product Main",
+  "settings": [],
+  "presets": [{
+    "name": "Product Main"
+  }]
+}
+{% endschema %}
+
+<section class="product-main">
+  <div class="container">
+    <div class="product-gallery">
+      <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+    </div>
+    
+    <div class="product-details">
+      <h1>{{ product.title }}</h1>
+      <p class="product-price">€{{ product.price | money_without_currency }}</p>
+      <p class="product-description">{{ product.description }}</p>
+      
+      <form method="post" action="/cart/add">
+        <div class="product-options">
+          {% for option in product.options %}
+            <label>{{ option.name }}</label>
+            <select name="properties[{{ option.name }}]">
+              {% for value in option.values %}
+                <option value="{{ value }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+          {% endfor %}
+        </div>
+        
+        <div class="product-quantity">
+          <label>Cantidad:</label>
+          <input type="number" name="quantity" value="1" min="1">
+        </div>
+        
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button type="submit" class="btn-add-to-cart">Añadir al carrito</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-main {
+    padding: 2rem;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  
+  .product-gallery {
+    width: 100%;
+  }
+  
+  .product-gallery img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .product-details h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-price {
+    font-size: 2rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .product-description {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .product-options {
+    margin-bottom: 1.5rem;
+  }
+  
+  .product-options label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .product-options select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .product-quantity {
+    margin-bottom: 1.5rem;
+  }
+  
+  .product-quantity input {
+    width: 100px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .btn-add-to-cart {
+    width: 100%;
+    padding: 1rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn-add-to-cart:hover {
+    background: var(--color-accent);
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
