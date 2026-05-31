@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ page_title }}{% if current_page != 1 %} &ndash; Página {{ current_page }}{% endif %} | {{ shop.name }}</title>
+    <meta name="description" content="{{ page_description | escape }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:description" content="{{ page_description | escape }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="icon" type="image/x-icon" href="{{ 'favicon.ico' | asset_url }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id={{ settings.gtm_id }}';f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer');</script>
+    
+    <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '{{ settings.meta_pixel_id }}');
+      fbq('track', 'PageView');
+    </script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.ga4_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ settings.ga4_id }}');
+    </script>
+    
+    <style>
+      :root {
+        --color-primary: {{ settings.primary_color }};
+        --color-secondary: {{ settings.secondary_color }};
+        --color-accent: {{ settings.accent_color }};
+      }
+    </style>
+  </head>
+  
+  <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm_id }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    {% render 'header' %}
+    
+    <main id="MainContent" class="content-for-layout">
+      {{ content_for_layout }}
+    </main>
+    
+    {% render 'cart-drawer' %}
+    {% render 'footer' %}
+    {% render 'cookie-banner' %}
+    
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </body>
+</html>
